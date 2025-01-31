@@ -1,35 +1,28 @@
 const express = require('express');
+const axios = require('axios');
 const app = express();
-const port = 3000;
 
-// Middleware untuk parsing request body
 app.use(express.json());
 
-// Route untuk halaman utama
 app.get('/', (req, res) => {
-  res.send('Selamat datang di AnimeKei!');
+  res.send('Masukkan ID anime yang Anda inginkan');
 });
 
-// Route untuk mengambil daftar anime
-app.get('/api/anime', (req, res) => {
-  // Kode untuk mengambil daftar anime dari database
-  const animeList = [
-    { id: 1, title: 'Naruto', genre: 'Action, Adventure' },
-    { id: 2, title: 'One Piece', genre: 'Action, Adventure' },
-    { id: 3, title: 'Attack on Titan', genre: 'Action, Horror' },
-  ];
-  res.json(animeList);
+app.post('/anime', (req, res) => {
+  const idAnime = req.body.idAnime;
+  const urlApi = `https://api.jikan.moe/v3/anime/${idAnime}`;
+
+  axios.get(urlApi)
+    .then(response => {
+      const dataAnime = response.data;
+      res.json(dataAnime);
+    })
+    .catch(error => {
+      console.error(error);
+      res.status(500).json({ message: 'Error mengambil data anime' });
+    });
 });
 
-// Route untuk mengambil detail anime
-app.get('/api/anime/:id', (req, res) => {
-  // Kode untuk mengambil detail anime dari database
-  const id = req.params.id;
-  const anime = { id: 1, title: 'Naruto', genre: 'Action, Adventure' };
-  res.json(anime);
-});
-
-// Server listen pada port 3000
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+app.listen(3000, () => {
+  console.log('Server running on port 3000');
 });

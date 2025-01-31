@@ -1,28 +1,23 @@
-const express = require('express');
 const axios = require('axios');
-const app = express();
 
-app.use(express.json());
+const urlApi = 'https://api.jikan.moe/v3/anime/';
 
-app.get('/', (req, res) => {
-  res.send('Masukkan ID anime yang Anda inginkan');
-});
+const getAnime = async (idAnime) => {
+  try {
+    const response = await axios.get(`${urlApi}${idAnime}`);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};
 
-app.post('/anime', (req, res) => {
-  const idAnime = req.body.idAnime;
-  const urlApi = `https://api.jikan.moe/v3/anime/${idAnime}`;
-
-  axios.get(urlApi)
-    .then(response => {
-      const dataAnime = response.data;
-      res.json(dataAnime);
-    })
-    .catch(error => {
-      console.error(error);
-      res.status(500).json({ message: 'Error mengambil data anime' });
-    });
-});
-
-app.listen(3000, () => {
-  console.log('Server running on port 3000');
-});
+export default async function handler(req, res) {
+  const idAnime = req.query.idAnime;
+  const dataAnime = await getAnime(idAnime);
+  if (dataAnime) {
+    res.json(dataAnime);
+  } else {
+    res.status(404).json({ message: 'Anime tidak ditemukan' });
+  }
+}

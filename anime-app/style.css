@@ -1,0 +1,53 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
+}
+
+#anime-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.anime-card {
+  width: 200px;
+  margin: 20px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.anime-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 10px 10px 0 0;
+}
+
+.anime-card h2 {
+  font-size: 18px;
+  margin: 10px;
+}
+
+.anime-card p {
+  font-size: 14px;
+  margin: 10px;
+}
+
+#video-player {
+  width: 640px;
+  height: 480px;
+  margin: 20px auto;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#video-player video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+    }
